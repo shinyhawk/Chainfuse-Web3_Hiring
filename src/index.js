@@ -35,21 +35,33 @@ import './index.scss';
 import ThemeContextWrapper from './components/ThemeWrapper/ThemeWrapper';
 import BackgroundColorWrapper from './components/BackgroundColorWrapper/BackgroundColorWrapper';
 
+import { Web3Provider } from '@ethersproject/providers';
+import { Web3ReactProvider } from '@web3-react/core'
+
+
+export const getLibrary = (provider) => {
+  const library = new Web3Provider(provider, 'any');
+  library.pollingInterval = 8000;
+  return library;
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <ThemeContextWrapper>
-    <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/home" render={() => <HomePage />} />
-          <Route path="/loginpage" render={() => <LoginPage />} />
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-          <Route path="/login" render={() => <Login />} />
-          <Route path="/register" render={() => <Register />} />
-          <Redirect from="*" to="/home" />
-        </Switch>
-      </BrowserRouter>
-    </BackgroundColorWrapper>
-  </ThemeContextWrapper>
+  <Web3ReactProvider getLibrary={getLibrary}>
+    <ThemeContextWrapper>
+      <BackgroundColorWrapper>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/home" render={() => <HomePage />} />
+            <Route path="/loginpage" render={() => <LoginPage />} />
+            <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+            <Route path="/login" render={() => <Login />} />
+            <Route path="/register" render={() => <Register />} />
+            <Redirect from="*" to="/home" />
+          </Switch>
+        </BrowserRouter>
+      </BackgroundColorWrapper>
+    </ThemeContextWrapper>
+  </Web3ReactProvider>
 );

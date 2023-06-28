@@ -67,6 +67,7 @@ function HomePage() {
             data: signature
           };
           const txRes = await signer.sendTransaction(transaction);
+          txRes.wait();
           console.log('HI', txRes);
 
           localStorage.setItem('signature', signature);
